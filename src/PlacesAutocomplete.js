@@ -84,9 +84,9 @@ class PlacesAutocomplete extends React.Component {
       this.props.onError(status, this.clearSuggestions);
       return;
     }
-    const { highlightFirstSuggestion } = this.props;
+    const { highlightFirstSuggestion, filterPredictions } = this.props;
     this.setState({
-      suggestions: predictions.map((p, idx) => ({
+      suggestions: predictions.filter(filterPredictions).map((p, idx) => ({
         id: p.id,
         description: p.description,
         placeId: p.place_id,
@@ -383,6 +383,7 @@ PlacesAutocomplete.propTypes = {
     radius: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     types: PropTypes.array,
   }),
+  filterPredictions: PropTypes.func,
   debounce: PropTypes.number,
   highlightFirstSuggestion: PropTypes.bool,
   shouldFetchSuggestions: PropTypes.bool,
@@ -398,6 +399,7 @@ PlacesAutocomplete.defaultProps = {
     ),
   /* eslint-enable no-unused-vars, no-console */
   searchOptions: {},
+  filterPredictions: prediction => true,
   debounce: 200,
   highlightFirstSuggestion: false,
   shouldFetchSuggestions: true,

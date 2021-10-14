@@ -142,6 +142,7 @@ PlacesAutocomplete is a [Controlled Component](https://facebook.github.io/react/
 | [`onSelect`](#onSelect)                                 | function |                    | Event handler to handle user's select event                                                      |
 | [`onError`](#onError)                                   | function |                    | Error handler function that gets called when Google Maps API responds with an error              |
 | [`searchOptions`](#searchOptions)                       |  object  |                    | Options to Google Maps API (i.e. bounds, radius)                                                 |
+| [`filterPredictions`](#filterPredictions)               | function |                    | Predicate function to filter the autocomplete predictions                                        |
 | [`debounce`](#debounce)                                 |  number  |                    | Number of milliseconds to delay before making a call to Google Maps API                          |
 | [`highlightFirstSuggestion`](#highlightFirstSuggestion) | boolean  |                    | If set to `true`, first list item in the dropdown will be automatically highlighted              |
 | [`shouldFetchSuggestions`](#shouldFetchSuggestions)     | boolean  |                    | Component will hit Google Maps API only if this flag is set `true`                               |
@@ -363,6 +364,32 @@ const searchOptions = {
 ```
 
 <a name="debounce"></a>
+
+### filterPredictions
+
+Type: `function`
+Required: `false`
+
+You can pass a predicate function to filter the autocomplete predictions.
+This is helpful when you need more granularity than what's offered by the
+[`searchOptions`](#searchOptions) passed to the AutocompleteService class.
+
+Function takes `status` (string) and `clearSuggestions` (function) as parameters
+
+```js
+// Include only political results
+const filterPredictions = (prediction) => prediction.types.includes('political');
+
+<PlacesAutocomplete
+  value={this.state.value}
+  onChange={this.handleChange}
+  filterPredictions={filterPolitical}
+>
+  {/* Custom render function */}
+</PlacesAutocomplete>
+```
+
+<a name="searchOptions"></a>
 
 ### debounce
 
